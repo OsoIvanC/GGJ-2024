@@ -8,6 +8,8 @@ public class Chest : MonoBehaviour, IInteractable
     [SerializeField]
     bool canInteract;
 
+    bool isOpened;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -20,6 +22,8 @@ public class Chest : MonoBehaviour, IInteractable
         canInteract = false;
 
         animator.SetTrigger("Open");
+        
+        isOpened = true;
     }
 
     public void DestroyChest()
@@ -45,13 +49,14 @@ public class Chest : MonoBehaviour, IInteractable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Player"))
+        if (collision.collider.CompareTag("Player") && !isOpened)
             canInteract = true;
+       
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Player"))
+        if (collision.collider.CompareTag("Player") && !isOpened)
             canInteract = false;   
     }
 }
